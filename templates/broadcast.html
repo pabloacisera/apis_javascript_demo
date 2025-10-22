@@ -1,0 +1,85 @@
+<style>
+    .broadcast-container {
+        width: 90vw;
+        margin: auto;
+        margin-top: 5rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    button {
+        width: 12rem;
+        padding: 9.5px 7.5px;
+        border-radius: 6px;
+        background-color: rgb(127, 127, 202);
+        color: rgb(245, 243, 243);
+        border: none;
+        margin-bottom: 1rem;
+    }
+
+    button:hover {
+        cursor: pointer;
+        background-color: rgb(68, 68, 109);
+    }
+
+    #message, #remitente {
+        width: 20rem;
+        height: 1.6rem;
+        outline: none;
+        padding: 8px;
+        margin-bottom: 1rem;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #remitente::placeholder,
+    #message::placeholder{
+        padding: 2px;
+    }
+</style>
+<div class="broadcast-container">
+    <h3>Necesitarás abrir otra venta para ver el funcionamiento de la API</h3>
+    <button type="button">nueva ventana</button>
+
+    <form id="send-form">
+        <input type="text" id="remitente" name="mensaje" placeholder="ingrese remitente">
+        <input type="text" id="message" name="mensaje" placeholder="enviar mensaje a otra ventana">
+        <button type="submit">enviar</button>
+    </form>
+
+</div>
+
+<script>
+    // abrir canal
+    const channel = new BroadcastChannel("demo22102025");
+
+    document.querySelector("button").addEventListener("click", function() {
+        window.open(
+           'http://localhost/js_api_web/templates/broadcast_recivied.html',
+           '_blank',
+           'width=600, height=400, left=600, top=400'
+        )
+    });
+
+    document.getElementById("send-form").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        let remitente = document.getElementById("remitente");
+        let message = document.getElementById("message");
+
+        let data = {
+            remitente: remitente.value.trim().toLowerCase(),
+            mensaje: message.value.trim().toLowerCase()
+        }
+
+        channel.postMessage(data);
+
+        // limpiar inputs
+        remitente.value="";
+        message.value="";        
+    })
+
+</script>
