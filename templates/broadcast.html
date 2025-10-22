@@ -1,85 +1,106 @@
-<style>
-    .broadcast-container {
-        width: 90vw;
-        margin: auto;
-        margin-top: 5rem;
-        display: flex;
-        flex-direction: column;
-    }
+<!DOCTYPE html>
+<html lang="en">
 
-    button {
-        width: 12rem;
-        padding: 9.5px 7.5px;
-        border-radius: 6px;
-        background-color: rgb(127, 127, 202);
-        color: rgb(245, 243, 243);
-        border: none;
-        margin-bottom: 1rem;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>leccion broadcast</title>
+</head>
 
-    button:hover {
-        cursor: pointer;
-        background-color: rgb(68, 68, 109);
-    }
-
-    #message, #remitente {
-        width: 20rem;
-        height: 1.6rem;
-        outline: none;
-        padding: 8px;
-        margin-bottom: 1rem;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-    }
-
-    #remitente::placeholder,
-    #message::placeholder{
-        padding: 2px;
-    }
-</style>
-<div class="broadcast-container">
-    <h3>Necesitarás abrir otra venta para ver el funcionamiento de la API</h3>
-    <button type="button">nueva ventana</button>
-
-    <form id="send-form">
-        <input type="text" id="remitente" name="mensaje" placeholder="ingrese remitente">
-        <input type="text" id="message" name="mensaje" placeholder="enviar mensaje a otra ventana">
-        <button type="submit">enviar</button>
-    </form>
-
-</div>
-
-<script>
-    // abrir canal
-    const channel = new BroadcastChannel("demo22102025");
-
-    document.querySelector("button").addEventListener("click", function() {
-        window.open(
-           'http://localhost/js_api_web/templates/broadcast_recivied.html',
-           '_blank',
-           'width=600, height=400, left=600, top=400'
-        )
-    });
-
-    document.getElementById("send-form").addEventListener("submit", function(e) {
-        e.preventDefault();
-
-        let remitente = document.getElementById("remitente");
-        let message = document.getElementById("message");
-
-        let data = {
-            remitente: remitente.value.trim().toLowerCase(),
-            mensaje: message.value.trim().toLowerCase()
+<body>
+    <style>
+        .broadcast-container {
+            width: 90vw;
+            margin: auto;
+            margin-top: 5rem;
+            display: flex;
+            flex-direction: column;
         }
 
-        channel.postMessage(data);
+        button {
+            width: 12rem;
+            padding: 9.5px 7.5px;
+            border-radius: 6px;
+            background-color: rgb(127, 127, 202);
+            color: rgb(245, 243, 243);
+            border: none;
+            margin-bottom: 1rem;
+        }
 
-        // limpiar inputs
-        remitente.value="";
-        message.value="";        
-    })
+        button:hover {
+            cursor: pointer;
+            background-color: rgb(68, 68, 109);
+        }
 
-</script>
+        #message,
+        #remitente {
+            width: 20rem;
+            height: 1.6rem;
+            outline: none;
+            padding: 8px;
+            margin-bottom: 1rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #remitente::placeholder,
+        #message::placeholder {
+            padding: 2px;
+        }
+    </style>
+
+        <a href="/apis_js">
+        <span class="arrow-back">
+            <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#999999">
+                <path
+                    d="m480-320 56-56-64-64h168v-80H472l64-64-56-56-160 160 160 160Zm0 240q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+            </svg>
+        </span>
+    </a>
+
+    <div class="broadcast-container">
+        <h3>Necesitarás abrir otra ventana para ver el funcionamiento de la API</h3>
+        <button type="button">nueva ventana</button>
+
+        <form id="send-form">
+            <input type="text" id="remitente" name="mensaje" placeholder="ingrese remitente">
+            <input type="text" id="message" name="mensaje" placeholder="enviar mensaje a otra ventana">
+            <button type="submit">enviar</button>
+        </form>
+    </div>
+    <script>
+        // abrir canal
+        const channel = new BroadcastChannel("demo22102025");
+
+        document.querySelector("button").addEventListener("click", function () {
+            window.open(
+                'http://localhost/apis_js/templates/broadcast_recivied.html',  // ← Ruta corregida
+                '_blank',
+                'width=600, height=400, left=600, top=400'
+            )
+        });
+        document.getElementById("send-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let remitente = document.getElementById("remitente");
+            let message = document.getElementById("message");
+
+            let data = {
+                remitente: remitente.value.trim().toLowerCase(),
+                mensaje: message.value.trim().toLowerCase()
+            }
+
+            channel.postMessage(data);
+
+            // limpiar inputs
+            remitente.value = "";
+            message.value = "";
+        })
+    </script>
+
+</body>
+
+</html>

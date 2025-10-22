@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lección notificacion api</title>
+</head>
+
+<body>
+    <style>
+        .notif-container {
+            width: 90vw;
+            margin: auto;
+            margin-top: 5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #notificate {
+            width: 6rem;
+            padding: 18px 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #f6a33e;
+            color: #000;
+            box-shadow: 0.1px 0.1px 0.2px grey;
+            margin-top: 1rem;
+        }
+
+        #notificate:hover {
+            cursor: pointer;
+        }
+    </style>
+
+    <a href="/apis_js">
+        <span class="arrow-back">
+            <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#999999">
+                <path
+                    d="m480-320 56-56-64-64h168v-80H472l64-64-56-56-160 160 160 160Zm0 240q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+            </svg>
+        </span>
+    </a>
+
+    <div class="notif-container">
+        <span>Api Notification: La Notification API permite a las aplicaciones web mostrar notificaciones del sistema al
+            usuario, incluso cuando la página no está activa. Estas notificaciones aparecen fuera del navegador, en el
+            sistema operativo del usuario.</span>
+
+        <button id="notificate">Notificar</button>
+    </div>
+    <script>
+        const requestPermission = () => {
+            if (!('Notification' in window)) {
+                alert("Tu navegador no soporta notificaciones");
+                return;
+            }
+
+            Notification.requestPermission().then(function (permission) {
+                alert(`Permiso: ${permission}`);
+            });
+        }
+
+        const showNotification = (data) => {
+            if (Notification.permission === "granted") {
+                let notif = new Notification(data.title, {
+                    body: data.body,
+                    icon: data.icon || undefined
+                });
+
+                notif.onclick = function () {
+                    alert('¡Click en la notificación!');
+                    window.focus();
+                };
+
+            } else {
+                alert('No tienes permiso. Concede el permiso primero.');
+                requestPermission();
+            }
+        }
+
+        // Pedir permisos al cargar
+        requestPermission();
+
+        // Agregar evento al botón
+        document.getElementById("notificate").addEventListener("click", function () {
+            showNotification({
+                title: "Custom Notification",
+                body: "Esta es una notificación personalizada"
+            });
+        });
+    </script>
+</body>
+
+</html>

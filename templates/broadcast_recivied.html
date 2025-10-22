@@ -1,119 +1,129 @@
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f2f4f8;
-    }
+<!DOCTYPE html>
+<html lang="es">
 
-    #message-inbox {
-        width: 90vw;
-        height: 100vh;
-        background-color: #fff;
-        color: #333;
-        margin: 2rem auto;
-        padding: 1rem 2rem;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        display: flex;
-        flex-direction: column;
-    }
-
-    h4 {
-        margin-top: 0;
-        margin-bottom: 1rem;
-        font-weight: 600;
-        color: #1a1a1a;
-    }
-
-    .messages-list {
-        flex: 1;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        background-color: #e9edf1;
-        border-radius: 8px;
-        padding: 1rem;
-    }
-
-    .message-item-link {
-        list-style: none;
-        background-color: #fff;
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        color: #222;
-        line-height: 1.4;
-        display: flex;
-        flex-direction: column;
-        max-width: 70%;
-        word-wrap: break-word;
-        animation: fadeIn 0.2s ease-in;
-    }
-
-    .message-item-link span {
-        color: #444;
-        font-weight: 500;
-    }
-
-    .message-item-link time {
-        font-size: 0.8rem;
-        color: #888;
-        align-self: flex-end;
-        margin-top: 0.25rem;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(5px);
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandeja de mensajes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f4f8;
         }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
+        #message-inbox {
+            width: 90vw;
+            height: 100vh;
+            background-color: #fff;
+            color: #333;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
         }
-    }
-</style>
 
+        h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
 
-<div id="message-inbox">
-    <h4>Bandeja de mensajes</h4>
-    <ul class="messages-list">
+        .messages-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            background-color: #e9edf1;
+            border-radius: 8px;
+            padding: 1rem;
+        }
 
-    </ul>
-</div>
+        .message-item-link {
+            list-style: none;
+            background-color: #fff;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            color: #222;
+            line-height: 1.4;
+            display: flex;
+            flex-direction: column;
+            max-width: 70%;
+            word-wrap: break-word;
+            animation: fadeIn 0.2s ease-in;
+        }
 
-<script>
-    // mismo nombre de canal
-    const channel = new BroadcastChannel("demo22102025");
-    let list = document.querySelector(".messages-list");
-    let messages = [];
+        .message-item-link span {
+            color: #444;
+            font-weight: 500;
+        }
 
-    function renderItems(msgs, target) {
-        target.innerHTML = "";
+        .message-item-link time {
+            font-size: 0.8rem;
+            color: #888;
+            align-self: flex-end;
+            margin-top: 0.25rem;
+        }
 
-        msgs.forEach(m => {
-            let item = document.createElement("li");
-            item.classList.add("message-item-link");
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
 
-            item.innerHTML = `
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="message-inbox">
+        <h4>Bandeja de mensajes</h4>
+        <ul class="messages-list"></ul>
+    </div>
+
+    <script>
+        // mismo nombre de canal
+        const channel = new BroadcastChannel("demo22102025");
+        let list = document.querySelector(".messages-list");
+        let messages = [];
+
+        function renderItems(msgs, target) {
+            target.innerHTML = "";
+
+            msgs.forEach(m => {
+                let item = document.createElement("li");
+                item.classList.add("message-item-link");
+
+                item.innerHTML = `
       <span><strong>${m.remitente || "Anónimo"}</strong>: ${m.mensaje}</span>
       <time>${new Date().toLocaleTimeString()}</time>
     `;
 
-            target.append(item);
-        });
+                target.append(item);
+            });
 
-        // 🔽 Hace scroll automático al último mensaje
-        target.scrollTop = target.scrollHeight;
-    }
+            // 🔽 Hace scroll automático al último mensaje
+            target.scrollTop = target.scrollHeight;
+        }
 
 
 
-    channel.onmessage = (event) => {
-        messages.push(event.data);
-        renderItems(messages, list)
-    }
-</script>
+        channel.onmessage = (event) => {
+            messages.push(event.data);
+            renderItems(messages, list)
+        }
+    
+    </script>
+</body>
+
+</html>
