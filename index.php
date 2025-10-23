@@ -82,6 +82,7 @@
         <option>seleccionar api</option>
         <option value="broadcast">API Broadcast</option>
         <option value="notification">API Notification</option>
+        <option value="workers">API Worker</option>
     </select>
 
     <div id="container"></div>

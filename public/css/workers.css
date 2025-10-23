@@ -1,0 +1,41 @@
+.container-modal {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(153, 153, 153);
+}
+
+.advertise-modal {
+    width: 30vw;
+    height: 16vh;
+    position: absolute;
+    top: 20rem;
+    right: 30rem;
+    z-index: 999;
+    background-color: darkgray;
+    text-align: center;
+    padding-top: 0.2rem;
+}
+
+#continue,
+#execute {
+    width: 8rem;
+    padding: 9px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: teal;
+    color: #fff;
+}
+
+#continue:hover,
+#execute:hover {
+    cursor: pointer;
+    background-color: rgb(1, 85, 85);
+}
+
+.workers-container {
+    width: 90vw;
+    margin: auto;
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+}
